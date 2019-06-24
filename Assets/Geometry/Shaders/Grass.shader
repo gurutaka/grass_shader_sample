@@ -90,6 +90,9 @@
                 float4 pos1 = IN[1].pos;
                 float4 pos2 = IN[2].pos;
 
+                float2 uv0 = IN[0].uv;
+                float2 uv1 = IN[1].uv;
+                float2 uv2 = IN[2].uv;
 
                 float3 nor0 = IN[0].normal;
                 float3 nor1 = IN[1].normal;
@@ -99,6 +102,8 @@
                 float4 centerPos = (pos0 + pos1 + pos2 ) / 3;
                 //法線ベクトルの平均値
                 float4 centerNor = float4( (nor0 + nor1 + nor2).xyz / 3, 1.0f);
+                //uv座標
+                float2 centerUv = (uv2 + uv1 + uv0) / 3.0f;
 
                 // VFX用の高さ、幅の調整
                 float height = (IN[0].height.r + IN[1].height.r + IN[2].height.r) / 3.0f;
@@ -108,13 +113,17 @@
                 float4 dir = float4(normalize(pos2 * rand(pos2)- pos0 * rand(pos1)).xyz * width, 1.0f);
 
                 //風向きマッピング用のテクスチャ
+
+                //追記;計算が複雑なのでuv平均値に変更
                 //テクスチャの名前 + _STをつけたfloat4のuniformを定義することでそのTextureのtilingやoffset情報を取ってくることができます
                 //https://qiita.com/ShirakawaMaru/items/ec8c049c72ff854e36ea
                 //Tilingを1→0.01に変更する必要あり
                 //tilitn, offsetを加味したuv座標＋uvスクロール
                 //実際は入力メッシュのUV座標をバラけさせるため
                 //xz平面がuv座標となるので注意
-                float2 uv = pos0.xz * _WindDistortionMap_ST.xy  + _WindDistortionMap_ST.zw  + _WindFrequency * _Time.y;
+                // float2 uv = pos0.xz * _WindDistortionMap_ST.xy  + _WindDistortionMap_ST.zw  + _WindFrequency * _Time.y;
+
+                float2 uv = centerUv + _WindFrequency * _Time.y;
                 //風向きはRG情報＠パーリンノイズ
 		        float2 windDir_xy = (tex2Dlod(_WindDistortionMap, float4(uv, 0, 0)).xy * 2 - 1) * _WindPower;
                 float4 wind = float4(windDir_xy, 0,0);

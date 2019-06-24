@@ -41,7 +41,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _WindDistortionMap:
         m_Texture: {fileID: 2800000, guid: 5e4ebd192fad6486d9e643586dca165f, type: 3}
-        m_Scale: {x: 0.01, y: 0.01}
+        m_Scale: {x: 0.5, y: 0.5}
         m_Offset: {x: 0, y: 0}
     - _WindMap:
         m_Texture: {fileID: 2800000, guid: 65f56f5e69b91e3438d9965245f584b1, type: 3}
@@ -53,7 +53,7 @@ Material:
     - _TessellationUniform: 1
     - _Width: 0.9
     - _WindFrequency: 0.036
-    - _WindPower: 2.8
+    - _WindPower: 3.7
     m_Colors:
     - _BottomColor: {r: 0.00071199884, g: 0.1509434, b: 0.0037826006, a: 1}
     - _HeightRate: {r: 0.4, g: 0.5, b: 0.3, a: 0}
